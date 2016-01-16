@@ -5,85 +5,76 @@ class People < ActiveRecord::Base
   validates :age, numericality: { only_integer: true, greater_than: 0 }
 
   def parents
-    family = []
-    parents = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) = ?) AND second_family_member_id = ?', :father, :mother, self.id)
-    parents.each do |parent|
-      family << parent.first_family_member
-    end
-    family
+    find_family_members(:father, :mother)
   end
 
   def children
-    children = []
-    families = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) =?) AND second_family_member_id = ?', :son, :daughter, self.id)
-    families.each do |family|
-      children << family.first_family_member
-    end
-    children
+    find_family_members(:son, :daughter)
   end
 
   def father
     def say_something
       'Hello, i am your father'
     end
-    Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :father, self.id, self.id).first.first_family_member
+    find_father_or_mother(:father)
   end
 
   def mother
     def say_something
-      'Hello, i am your mother'
+      "Hello, i am your mother"
     end
-    Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :mother, self.id, self.id).first.first_family_member
+    find_father_or_mother(:mother)
   end
 
   def sons
     def say_something
       'Hello, i am your son'
     end
-    sons = []
-    families = Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :son, self.id, self.id)
-    families.each do |family|
-      sons << family.first_family_member
-    end
-    sons
+    find_family_members(:son)
   end
 
   def daughters
     def say_something
       'Hello, i am your daughter'
     end
-    daughters = []
-    families = Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :daughter, self.id, self.id)
-    families.each do |family|
-      daughters << family.first_family_member
-    end
-    daughters
+    find_family_members(:daughter)
   end
 
   def brothers
-    brothers = []
-    families = Family.includes(:first_family_member).where('lower(type) = ? AND first_family_member_id = ?', :brother, self.id)
-    families.each do |family|
-      brothers << family.second_family_member
-    end
-    brothers
+    find_family_members(:brother)
   end
 
   def sisters
-    sisters = []
-    families = Family.includes(:first_family_member).where('lower(type) = ? AND first_family_member_id = ?', :sister, self.id)
-    families.each do |family|
-      sisters << family.second_family_member
+    find_family_members(:sister)
+  end
+
+  def find_father_or_mother(type)
+    Family.includes(:first_family_member).where('lower(type) = ? AND second_family_member_id = ?', type, self.id).first.first_family_member
+  end
+
+  def find_family_members(first_type, second_type = nil)
+    members_array = []
+    if first_type == 'sister' or first_type == 'brother'
+      members = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) = ?) AND first_family_member_id = ?', type, self.id)
+    else
+      members = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) = ?) AND second_family_member_id = ?', first_type, second_type, self.id)
     end
-   sisters
+    members.each do |member|
+      members_array << member.first_family_member
+    end
+    members_array
   end
 
   def name
     "#{self.first_name} #{self.last_name}"
   end
 
-  def say_something
-    "Hello, my name is #{name}"
+  def say_something(relation = nil)
+    if relation.present?
+      "Hello, I am your #{relation}"
+    else
+      "Hello, my name is #{name}"
+    end
   end
 
   def father_of?(name)
