@@ -38,6 +38,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda'
   gem 'factory_girl_rails'
+  gem 'pry-rails'
+  gem 'binding_of_caller'
+  gem 'awesome_print'
 end
 
 group :development do
