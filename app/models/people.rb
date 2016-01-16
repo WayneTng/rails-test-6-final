@@ -6,7 +6,7 @@ class People < ActiveRecord::Base
 
   def parents
     family = []
-    parents = Family.includes(:first_family_member).where('(lower(role) = ? OR lower(role) = ?) AND (first_family_member_id = ? OR second_family_member_id = ? )', :father, :mother, self.id, self.id)
+    parents = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) = ?) AND second_family_member_id = ?', :father, :mother, self.id)
     parents.each do |parent|
       family << parent.first_family_member
     end
@@ -15,7 +15,7 @@ class People < ActiveRecord::Base
 
   def children
     children = []
-    families = Family.includes(:first_family_member).where('(lower(role) = ? OR lower(role) =?) AND second_family_member_id = ?', :son, :daughter, self.id)
+    families = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) =?) AND second_family_member_id = ?', :son, :daughter, self.id)
     families.each do |family|
       children << family.first_family_member
     end
@@ -26,14 +26,14 @@ class People < ActiveRecord::Base
     def say_something
       'Hello, i am your father'
     end
-    Family.includes(:first_family_member).where('lower(role) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :father, self.id, self.id).first.first_family_member
+    Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :father, self.id, self.id).first.first_family_member
   end
 
   def mother
     def say_something
       'Hello, i am your mother'
     end
-    Family.includes(:first_family_member).where('lower(role) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :mother, self.id, self.id).first.first_family_member
+    Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :mother, self.id, self.id).first.first_family_member
   end
 
   def sons
@@ -41,7 +41,7 @@ class People < ActiveRecord::Base
       'Hello, i am your son'
     end
     sons = []
-    families = Family.includes(:first_family_member).where('lower(role) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :son, self.id, self.id)
+    families = Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :son, self.id, self.id)
     families.each do |family|
       sons << family.first_family_member
     end
@@ -53,7 +53,7 @@ class People < ActiveRecord::Base
       'Hello, i am your daughter'
     end
     daughters = []
-    families = Family.includes(:first_family_member).where('lower(role) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :daughter, self.id, self.id)
+    families = Family.includes(:first_family_member).where('lower(type) = ? AND (first_family_member_id = ? OR second_family_member_id = ?)', :daughter, self.id, self.id)
     families.each do |family|
       daughters << family.first_family_member
     end
@@ -62,7 +62,7 @@ class People < ActiveRecord::Base
 
   def brothers
     brothers = []
-    families = Family.includes(:first_family_member).where('lower(role) = ? AND first_family_member_id = ?', :brother, self.id)
+    families = Family.includes(:first_family_member).where('lower(type) = ? AND first_family_member_id = ?', :brother, self.id)
     families.each do |family|
       brothers << family.second_family_member
     end
@@ -71,7 +71,7 @@ class People < ActiveRecord::Base
 
   def sisters
     sisters = []
-    families = Family.includes(:first_family_member).where('lower(role) = ? AND first_family_member_id = ?', :sister, self.id)
+    families = Family.includes(:first_family_member).where('lower(type) = ? AND first_family_member_id = ?', :sister, self.id)
     families.each do |family|
       sisters << family.second_family_member
     end
@@ -89,7 +89,7 @@ class People < ActiveRecord::Base
   def father_of?(name)
     name_id = People.where(first_name: name).first.id
     if name_id.present?
-      father_of = Family.includes(:first_family_member).where('lower(role) = ? AND second_family_member_id = ?', :father, name_id)
+      father_of = Family.includes(:first_family_member).where('lower(type) = ? AND second_family_member_id = ?', :father, name_id)
     end
     father_of.present?
   end

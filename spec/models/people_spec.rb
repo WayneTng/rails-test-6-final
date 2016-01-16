@@ -17,20 +17,20 @@ RSpec.describe People, type: :model do
   let!(:mia)      { create(:people, first_name: 'Mia', age: 16, gender: 'Female')  }
   let!(:lily)     { create(:people, first_name: 'Lily', age: '38', gender: 'Female')  }
 
-  let!(:father) { create(:family, first_family_member_id: john.id, second_family_member_id: william.id, role: 'Father') }
-  let!(:mother) { create(:family, first_family_member_id: lily.id, second_family_member_id: william.id, role: 'Mother') }
+  let!(:father) { create(:family, first_family_member_id: john.id, second_family_member_id: william.id, type: 'Father') }
+  let!(:mother) { create(:family, first_family_member_id: lily.id, second_family_member_id: william.id, type: 'Mother') }
 
-  let!(:john_first_son) { create(:family, first_family_member_id: william.id, second_family_member_id: john.id, role: 'Son') }
-  let!(:lily_first_son) { create(:family, first_family_member_id: william.id, second_family_member_id: lily.id, role: 'Son') }
+  let!(:john_first_son) { create(:family, first_family_member_id: william.id, second_family_member_id: john.id, type: 'Son') }
+  let!(:lily_first_son) { create(:family, first_family_member_id: william.id, second_family_member_id: lily.id, type: 'Son') }
 
-  let!(:john_second_son) { create(:family, first_family_member_id: michael.id, second_family_member_id: john.id, role: 'Son') }
-  let!(:lily_second_son) { create(:family, first_family_member_id: michael.id, second_family_member_id: lily.id, role: 'Son') }
+  let!(:john_second_son) { create(:family, first_family_member_id: michael.id, second_family_member_id: john.id, type: 'Son') }
+  let!(:lily_second_son) { create(:family, first_family_member_id: michael.id, second_family_member_id: lily.id, type: 'Son') }
 
-  let!(:john_first_daughter) { create(:family, first_family_member_id: ava.id, second_family_member_id: john.id, role: 'Daughter') }
-  let!(:lily_first_daughter) { create(:family, first_family_member_id: ava.id, second_family_member_id: lily.id, role: 'Daughter') }
+  let!(:john_first_daughter) { create(:family, first_family_member_id: ava.id, second_family_member_id: john.id, type: 'Daughter') }
+  let!(:lily_first_daughter) { create(:family, first_family_member_id: ava.id, second_family_member_id: lily.id, type: 'Daughter') }
 
-  let!(:john_second_daughter) { create(:family, first_family_member_id: mia.id, second_family_member_id: john.id, role: 'Daughter') }
-  let!(:lily_second_daughter) { create(:family, first_family_member_id: mia.id, second_family_member_id: lily.id, role: 'Daughter') }
+  let!(:john_second_daughter) { create(:family, first_family_member_id: mia.id, second_family_member_id: john.id, type: 'Daughter') }
+  let!(:lily_second_daughter) { create(:family, first_family_member_id: mia.id, second_family_member_id: lily.id, type: 'Daughter') }
 
   describe '#say_something' do
     it 'introduce themself' do
