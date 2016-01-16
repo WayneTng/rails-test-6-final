@@ -1,0 +1,2 @@
+class Sister < Family
+end

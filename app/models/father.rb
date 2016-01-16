@@ -1,0 +1,2 @@
+class Father < Family
+end

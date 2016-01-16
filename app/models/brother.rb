@@ -1,0 +1,2 @@
+class Brother < Family
+end

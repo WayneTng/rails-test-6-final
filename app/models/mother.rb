@@ -1,0 +1,2 @@
+class Mother < Family
+end

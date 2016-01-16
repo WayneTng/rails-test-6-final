@@ -1,0 +1,2 @@
+class Son < Family
+end
