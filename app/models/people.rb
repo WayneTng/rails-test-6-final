@@ -54,13 +54,17 @@ class People < ActiveRecord::Base
 
   def find_family_members(first_type, second_type = nil)
     members_array = []
-    if first_type == 'sister' or first_type == 'brother'
-      members = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) = ?) AND first_family_member_id = ?', type, self.id)
+    if first_type == :sister or first_type == :brother
+      members = Family.includes(:first_family_member).where('lower(type) = ? AND first_family_member_id = ?', first_type, self.id)
     else
       members = Family.includes(:first_family_member).where('(lower(type) = ? OR lower(type) = ?) AND second_family_member_id = ?', first_type, second_type, self.id)
     end
     members.each do |member|
-      members_array << member.first_family_member
+      if first_type == :sister or first_type == :brother
+        members_array << member.second_family_member
+      else
+        members_array << member.first_family_member
+      end
     end
     members_array
   end
@@ -69,12 +73,8 @@ class People < ActiveRecord::Base
     "#{self.first_name} #{self.last_name}"
   end
 
-  def say_something(relation = nil)
-    if relation.present?
-      "Hello, I am your #{relation}"
-    else
-      "Hello, my name is #{name}"
-    end
+  def say_something
+    "Hello, my name is #{name}"
   end
 
   def father_of?(name)
