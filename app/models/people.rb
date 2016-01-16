@@ -88,7 +88,7 @@ class People < ActiveRecord::Base
     name_id = People.where(first_name: name).first.id
     if name_id.present?
       father_of = Family.includes(:first_family_member).where('lower(role) = ? AND second_family_member_id = ?', :father, name_id)
-    else
+    end
     father_of.present?
   end
 end
