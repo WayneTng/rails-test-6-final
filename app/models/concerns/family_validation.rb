@@ -6,10 +6,26 @@ module FamilyValidation
   end
 
   def must_be_male
-    errors.add(:not_male, "You must be a Male") if self.first_family_member.gender != 'Male'
+    if self.type == 'Brother'
+      errors.add(:not_male, "You must be a Male") if self.second_family_member.gender != 'Male'
+    else
+      errors.add(:not_male, "You must be a Male") if self.first_family_member.gender != 'Male'
+    end
   end
 
   def must_be_female
-    errors.add(:not_female, "You must be a Female") if self.first_family_member.gender != 'Female'
+    if self.type == 'Sister'
+      errors.add(:not_female, "You must be a Female") if self.second_family_member.gender != 'Female'
+    else
+      errors.add(:not_female, "You must be a Female") if self.first_family_member.gender != 'Female'
+    end
+  end
+
+  def only_one_parent_each
+    father = Father.where(second_family_member: self.first_family_member.id)
+    mother = Mother.where(second_family_member: self.first_family_member.id)
+    if father.count > 1 or mother.count > 1
+      errors.add(:too_many, "Parents, you can have one Father and Mother")
+    end
   end
 end

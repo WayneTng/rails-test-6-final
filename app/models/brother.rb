@@ -1,5 +1,5 @@
 class Brother < Family
   include FamilyValidation
 
-  validate :must_be_son
+  validate :must_be_male
 end
