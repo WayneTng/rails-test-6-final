@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160116050635) do
+ActiveRecord::Schema.define(version: 20160116081618) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "families", force: :cascade do |t|
-    t.string   "role"
+    t.string   "type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "first_family_member_id"
