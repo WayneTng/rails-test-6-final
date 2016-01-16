@@ -91,4 +91,9 @@ class People < ActiveRecord::Base
     end
     father_of.present?
   end
+
+  def older_than(name)
+    name = People.where(first_name: name).first
+    age_different = self.age - name.age
+  end
 end
