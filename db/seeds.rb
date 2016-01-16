@@ -28,18 +28,26 @@ Family.create!(first_family_member_id: lily.id, second_family_member_id: michael
 Family.create!(first_family_member_id: lily.id, second_family_member_id: ava.id, role: 'Mother')
 Family.create!(first_family_member_id: lily.id, second_family_member_id: mia.id, role: 'Mother')
 
+Family.create!(first_family_member_id: william.id, second_family_member_id: john.id, role: 'Son')
+Family.create!(first_family_member_id: william.id, second_family_member_id: lily.id, role: 'Son')
 Family.create!(first_family_member_id: william.id, second_family_member_id: michael.id, role: 'Brother')
 Family.create!(first_family_member_id: william.id, second_family_member_id: ava.id, role: 'Sister')
 Family.create!(first_family_member_id: william.id, second_family_member_id: mia.id, role: 'Sister')
 
+Family.create!(first_family_member_id: michael.id, second_family_member_id: john.id, role: 'Son')
+Family.create!(first_family_member_id: michael.id, second_family_member_id: lily.id, role: 'Son')
 Family.create!(first_family_member_id: michael.id, second_family_member_id: william.id, role: 'Brother')
 Family.create!(first_family_member_id: michael.id, second_family_member_id: ava.id, role: 'Sister')
 Family.create!(first_family_member_id: michael.id, second_family_member_id: mia.id, role: 'Sister')
 
+Family.create!(first_family_member_id: ava.id, second_family_member_id: john.id, role: 'Daughter')
+Family.create!(first_family_member_id: ava.id, second_family_member_id: lily.id, role: 'Daughter')
 Family.create!(first_family_member_id: ava.id, second_family_member_id: william.id, role: 'Brother')
 Family.create!(first_family_member_id: ava.id, second_family_member_id: michael.id, role: 'Brother')
 Family.create!(first_family_member_id: ava.id, second_family_member_id: mia.id, role: 'Sister')
 
+Family.create!(first_family_member_id: mia.id, second_family_member_id: john.id, role: 'Daughter')
+Family.create!(first_family_member_id: mia.id, second_family_member_id: lily.id, role: 'Daughter')
 Family.create!(first_family_member_id: mia.id, second_family_member_id: william.id, role: 'Brother')
 Family.create!(first_family_member_id: mia.id, second_family_member_id: michael.id, role: 'Brother')
 Family.create!(first_family_member_id: mia.id, second_family_member_id: ava.id, role: 'Sister')
