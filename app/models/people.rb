@@ -2,6 +2,8 @@ class People < ActiveRecord::Base
   has_many :first_member,     class_name: Family, foreign_key: 'first_family_member_id'
   has_many :second_member, class_name: Family, foreign_key: 'second_family_member_id'
 
+  validates :age, numericality: { only_integer: true, greater_than: 0 }
+
   def parents
     family = []
     parents = Family.includes(:first_family_member).where('(lower(role) = ? OR lower(role) = ?) AND (first_family_member_id = ? OR second_family_member_id = ? )', :father, :mother, self.id, self.id)

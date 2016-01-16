@@ -6,6 +6,10 @@ RSpec.describe People, type: :model do
     it { is_expected.to have_many(:second_member)  }
   end
 
+  context 'Validation' do
+    it { is_expected.to validate_numericality_of(:age).is_greater_than(0) }
+  end
+
   let!(:john)     { create(:people)  }
   let!(:william)  { create(:people, first_name: 'William', age: 20)  }
   let!(:michael)  { create(:people, first_name: 'Michael', age: 18)  }
@@ -27,6 +31,12 @@ RSpec.describe People, type: :model do
 
   let!(:john_second_daughter) { create(:family, first_family_member_id: mia.id, second_family_member_id: john.id, role: 'Daughter') }
   let!(:lily_second_daughter) { create(:family, first_family_member_id: mia.id, second_family_member_id: lily.id, role: 'Daughter') }
+
+  describe '#say_something' do
+    it 'introduce themself' do
+      expect(john.say_something).to eq 'Hello, my name is John Fwz'
+    end
+  end
 
   describe '#parents' do
     it 'return the parents' do
@@ -64,12 +74,6 @@ RSpec.describe People, type: :model do
   describe '#name' do
     it 'returns the name' do
       expect(john.name).to eq 'John Fwz'
-    end
-  end
-
-  describe '#say_something' do
-    it 'introduce themself' do
-      expect(john.say_something).to eq 'Hello, my name is John Fwz'
     end
   end
 end
